@@ -43,18 +43,29 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
+//Let's implement our own routes
+// /bookmarks/tagged/anything
+//It will go into the tags method on the Bookmarks controllers
+Router::scope( //if we input /bookmarks, the controller Bookmarks will be called.
+  '/bookmarks',
+  ['controller' => 'Bookmarks'],
+  function ($routes){
+      $routes->connect('/tagged/*',['action' => 'tags']);
+  }
+);
+
 Router::scope('/', function (RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+//    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
-    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+  //  $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
     /**
      * Connect catchall routes for all controllers.
@@ -72,7 +83,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
-    $routes->fallbacks(DashedRoute::class);
+    $routes->fallbacks(DashedRoute::class); //default route
 });
 
 /**

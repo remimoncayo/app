@@ -111,4 +111,23 @@ class BookmarksController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    //this is the function we are calling in Routes
+    //REMI
+    public function tags(){
+        //die('test'); to test shit
+        //getting all passed parameters
+        //this fetches the tags: /tagged/cooking
+        //getting all passed parameters
+        $tags = $this->request->params['pass']; //pass=the passed parameters
+
+        //find the tagged bookmarks:
+        $bookmarks = $this->Bookmarks->find('tagged',  //The application expects a method called findTagged at the table Model
+            ['tags'=>$tags]);
+        //pass to the View
+        $this->set(
+          ['bookmarks'=>$bookmarks,
+          'tags'=>$tags]);
+
+          //die('testBookmarksController');
+    }//end tags()
 }
